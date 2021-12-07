@@ -4,7 +4,7 @@
 
 	<groupId>com.christianheina.communication</groupId>
 	<artifactId>jantenna-phased-array</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>JAntenna Phased Array</name>
@@ -195,7 +195,7 @@
 		<connection>scm:git:https://github.com/christianheina/jantenna-phased-array.git</connection>
 		<developerConnection>scm:git:https://github.com/christianheina/jantenna-phased-array.git</developerConnection>
 		<url>https://github.com/christianheina/jantenna-phased-array/tree/main</url>
-		<tag>HEAD</tag>
+		<tag>jantenna-phased-array-0.0.1</tag>
 	</scm>
 	<issueManagement>
 		<url>https://github.com/christianheina/jantenna-phased-array/issues</url>
