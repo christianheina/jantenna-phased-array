@@ -11,7 +11,14 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - name: Configure Git User
+        run: |
+          git config user.email "github-actions@users.noreply.github.com"
+          git config user.name "Github Actions"
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v2
         with:
@@ -20,8 +27,11 @@ jobs:
           server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: mvn --batch-mode release:prepare release:perform -Dgoals=deploy -P deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
