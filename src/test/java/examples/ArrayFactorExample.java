@@ -33,6 +33,7 @@ import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlg
 @SuppressWarnings("javadoc")
 public class ArrayFactorExample {
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
         double freq = 2 * Math.pow(10, 9);
         double lambda = Util.calculateLambda(freq);
