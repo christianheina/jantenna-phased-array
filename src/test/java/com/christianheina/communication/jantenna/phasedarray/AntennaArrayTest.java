@@ -21,7 +21,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
-import com.christianheina.communication.jantenna.phasedarray.AntennaArray;
 import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlgorithm;
 
 /**

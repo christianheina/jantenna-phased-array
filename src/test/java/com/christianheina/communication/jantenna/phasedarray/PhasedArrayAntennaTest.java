@@ -28,8 +28,6 @@ import com.christianheina.communication.jantenna.commons.Constants;
 import com.christianheina.communication.jantenna.commons.Field;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 import com.christianheina.communication.jantenna.commons.Util;
-import com.christianheina.communication.jantenna.phasedarray.AntennaArray;
-import com.christianheina.communication.jantenna.phasedarray.PhasedArrayAntenna;
 import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlgorithm;
 
 /**

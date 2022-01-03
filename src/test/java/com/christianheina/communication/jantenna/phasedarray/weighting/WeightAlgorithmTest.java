@@ -21,8 +21,6 @@ import org.testng.annotations.Test;
 
 import com.christianheina.communication.jantenna.commons.Constants;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
-import com.christianheina.communication.jantenna.phasedarray.weighting.ConjugateWeightAlgorithm;
-import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlgorithm;
 
 /**
  * Unit test for {@link WeightAlgorithm}.

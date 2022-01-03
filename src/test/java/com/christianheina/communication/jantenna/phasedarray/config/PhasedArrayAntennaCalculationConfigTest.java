@@ -20,10 +20,6 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.phasedarray.config.Config;
-import com.christianheina.communication.jantenna.phasedarray.config.DefaultConfig;
-import com.christianheina.communication.jantenna.phasedarray.config.PhasedArrayAntennaCalculationConfig;
-
 /**
  * Unit test for {@link PhasedArrayAntennaCalculationConfig}.
  * 

@@ -18,8 +18,6 @@ package com.christianheina.communication.jantenna.phasedarray.exceptions;
 
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.phasedarray.exceptions.PhasedArrayAntennaException;
-
 /**
  * Unit test for {@link PhasedArrayAntennaException}.
  * 

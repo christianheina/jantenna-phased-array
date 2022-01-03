@@ -20,8 +20,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.phasedarray.config.DefaultConfig;
-
 /**
  * Unit test for {@link DefaultConfig}.
  * 
