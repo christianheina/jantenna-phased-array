@@ -19,7 +19,6 @@ package com.christianheina.communication.jantenna.phasedarray.weighting;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.commons.Constants;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 
 /**
@@ -33,9 +32,9 @@ public class WeightAlgorithmTest {
     @Test
     public void newConjugateWeightAlgorithmTest() {
         double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
         ThetaPhi pointingDirection = ThetaPhi.fromDegrees(0, 0);
-        WeightAlgorithm weightAlgorithm = WeightAlgorithm.newConjugateWeightAlgorithm(lambda, pointingDirection);
+        WeightAlgorithm weightAlgorithm = WeightAlgorithm.newConjugateWeightAlgorithmFromFrequency(freq,
+                pointingDirection);
         Assert.assertEquals(weightAlgorithm.getClass(), ConjugateWeightAlgorithm.class);
     }
 

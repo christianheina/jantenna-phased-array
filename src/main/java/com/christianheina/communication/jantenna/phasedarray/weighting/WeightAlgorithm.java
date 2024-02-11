@@ -20,6 +20,7 @@ import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
+import com.christianheina.communication.jantenna.commons.Util;
 
 /**
  * Interface for weight algorithm
@@ -48,8 +49,44 @@ public interface WeightAlgorithm {
      * 
      * @return new instance
      */
-    public static WeightAlgorithm newConjugateWeightAlgorithm(double lambda, ThetaPhi pointingDirection) {
+    public static WeightAlgorithm newConjugateWeightAlgorithmFromLambda(double lambda, ThetaPhi pointingDirection) {
         return new ConjugateWeightAlgorithm(lambda, pointingDirection);
+    }
+
+    /**
+     * Create new instance of {@link ConjugateWeightAlgorithm}
+     * 
+     * @param lambda
+     *            wavelength used to calculate weights
+     * @param pointingDirection
+     *            pointing direction to calculate weights
+     * 
+     * @return new instance
+     * 
+     * @deprecated As of 2024-02-11 this is replaced by
+     *             {@link com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlgorithm#newConjugateWeightAlgorithmFromLambda(double, ThetaPhi)
+     *             newConjugateWeightAlgorithmFromLambda(double lambda, ThetaPhi pointingDirection)}. This method will
+     *             be supported until 2024-05-11 and removed after 2024-08-11.
+     */
+    @Deprecated
+    public static WeightAlgorithm newConjugateWeightAlgorithm(double lambda, ThetaPhi pointingDirection) {
+        return newConjugateWeightAlgorithmFromLambda(lambda, pointingDirection);
+    }
+
+    /**
+     * Create new instance of {@link ConjugateWeightAlgorithm}
+     * 
+     * @param frequency
+     *            frequency used to calculate lambda value used when calculating weights
+     * @param pointingDirection
+     *            pointing direction to calculate weights
+     * 
+     * @return new instance
+     */
+    public static WeightAlgorithm newConjugateWeightAlgorithmFromFrequency(double frequency,
+            ThetaPhi pointingDirection) {
+        double lambda = Util.calculateLambda(frequency);
+        return newConjugateWeightAlgorithmFromLambda(lambda, pointingDirection);
     }
 
 }
