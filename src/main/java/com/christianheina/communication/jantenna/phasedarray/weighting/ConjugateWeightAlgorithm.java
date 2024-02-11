@@ -29,17 +29,14 @@ import com.christianheina.communication.jantenna.phasedarray.PhasedArrayUtil;
  */
 public class ConjugateWeightAlgorithm implements WeightAlgorithm {
 
-    private double lambda;
-    private ThetaPhi pointingDirection;
+    private Vector3D k;
 
     ConjugateWeightAlgorithm(double lambda, ThetaPhi pointingDirection) {
-        this.lambda = lambda;
-        this.pointingDirection = pointingDirection;
+        k = PhasedArrayUtil.calculateWaveVector(lambda, pointingDirection);
     }
 
     @Override
     public Complex calculateWeight(Vector3D r) {
-        Vector3D k = PhasedArrayUtil.calculateWaveVector(lambda, pointingDirection);
         return PhasedArrayUtil.calculateSteeringVector(k, r).conjugate();
     }
 
