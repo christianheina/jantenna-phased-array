@@ -42,13 +42,72 @@ public class AntennaArray {
      * Create antenna array with same lambda spacing between all elements in the array.
      * 
      * @param sizeX
+     *            size in X dimension. Must be 1
+     * @param sizeY
+     *            size in Y dimension.
+     * @param sizeZ
+     *            size in Z dimension.
+     * @param spacingX
+     *            the element spacing in X-dimension in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param spacingY
+     *            the element spacing in Y-dimension in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param spacingZ
+     *            the element spacing in Z-dimension in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param designFrequency
+     *            the design frequency of the array.<br>
+     *            This along with spacing will determine the distance between each element in the array.
+     * @param weightAlgorithm
+     *            the algorithm used to calculate the weight
+     * 
+     * @return new {@link AntennaArray} instance
+     * 
+     * @exception IllegalArgumentException
+     *                sizeX, sizeY or sizeZ is less than 1.
+     */
+    public static AntennaArray fromEquallySpacedArray(int sizeX, int sizeY, int sizeZ, double spacingX, double spacingY,
+            double spacingZ, double designFrequency, WeightAlgorithm weightAlgorithm) {
+        if (sizeX < 1 || sizeY < 1 || sizeZ < 1) {
+            throw new IllegalArgumentException(
+                    "Array size in X, Y or Z dimension is less than 1. Actual size, (X, Y, X), is (" + sizeX + ", "
+                            + sizeY + ", " + sizeZ + ").");
+        }
+        double lambdaDistance = Util.calculateLambda(designFrequency);
+        double distanceX = calculateDistance(spacingX, lambdaDistance);
+        double distanceY = calculateDistance(spacingY, lambdaDistance);
+        double distanceZ = calculateDistance(spacingZ, lambdaDistance);
+        WeightableElement[] antennaArray = new WeightableElement[sizeX * sizeY * sizeZ];
+        int arrayIndex = 0;
+        for (int xInd = 0; xInd < sizeX; xInd++) {
+            for (int yInd = 0; yInd < sizeY; yInd++) {
+                for (int zInd = 0; zInd < sizeZ; zInd++) {
+                    Vector3D r = new Vector3D(xInd * distanceX, yInd * distanceY, zInd * distanceZ);
+                    antennaArray[arrayIndex] = new WeightableElement(r, designFrequency,
+                            weightAlgorithm.calculateWeight(r));
+                    arrayIndex++;
+                }
+            }
+        }
+        return new AntennaArray(antennaArray);
+    }
+
+    private static double calculateDistance(double spacingLambda, double lambdaDistance) {
+        return spacingLambda * lambdaDistance;
+    }
+
+    /**
+     * Create antenna array with same lambda spacing between all elements in the array.
+     * 
+     * @param sizeX
      *            size in X dimension.
      * @param sizeY
      *            size in Y dimension.
      * @param sizeZ
      *            size in Z dimension.
      * @param spacing
-     *            the element spacing in lambda.<br>
+     *            the element spacing in lambda (wavelengths).<br>
      *            For example 0.5
      * @param designFrequency
      *            the design frequency of the array.<br>
@@ -60,19 +119,56 @@ public class AntennaArray {
      */
     public static AntennaArray fromEquallySpacedArray(int sizeX, int sizeY, int sizeZ, double spacing,
             double designFrequency, WeightAlgorithm weightAlgorithm) {
-        double lambda = spacing * Util.calculateLambda(designFrequency);
-        WeightableElement[] antennaArray = new WeightableElement[sizeX * sizeY * sizeZ];
-        int index = 0;
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
-                for (int z = 0; z < sizeZ; z++) {
-                    Vector3D r = new Vector3D(0, (y * lambda), (z * lambda));
-                    antennaArray[index] = new WeightableElement(r, designFrequency, weightAlgorithm.calculateWeight(r));
-                    index++;
-                }
-            }
-        }
-        return new AntennaArray(antennaArray);
+        return fromEquallySpacedArray(sizeX, sizeY, sizeZ, spacing, spacing, spacing, designFrequency, weightAlgorithm);
+    }
+
+    /**
+     * Create antenna array with same lambda spacing between all elements in the array.
+     * 
+     * @param sizeY
+     *            size in Y dimension.
+     * @param sizeZ
+     *            size in Z dimension.
+     * @param spacingY
+     *            the element spacing in Y-dimension in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param spacingZ
+     *            the element spacing in Z-dimension in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param designFrequency
+     *            the design frequency of the array.<br>
+     *            This along with spacing will determine the distance between each element in the array.
+     * @param weightAlgorithm
+     *            the algorithm used to calculate the weight
+     * 
+     * @return new {@link AntennaArray} instance
+     */
+    public static AntennaArray fromEquallySpacedArray(int sizeY, int sizeZ, double spacingY, double spacingZ,
+            double designFrequency, WeightAlgorithm weightAlgorithm) {
+        return fromEquallySpacedArray(1, sizeY, sizeZ, 0, spacingY, spacingZ, designFrequency, weightAlgorithm);
+    }
+
+    /**
+     * Create antenna array with same lambda spacing between all elements in the array.
+     * 
+     * @param sizeY
+     *            size in Y dimension.
+     * @param sizeZ
+     *            size in Z dimension.
+     * @param spacing
+     *            the element spacing in lambda (wavelengths).<br>
+     *            For example 0.5
+     * @param designFrequency
+     *            the design frequency of the array.<br>
+     *            This along with spacing will determine the distance between each element in the array.
+     * @param weightAlgorithm
+     *            the algorithm used to calculate the weight
+     * 
+     * @return new {@link AntennaArray} instance
+     */
+    public static AntennaArray fromEquallySpacedArray(int sizeY, int sizeZ, double spacing, double designFrequency,
+            WeightAlgorithm weightAlgorithm) {
+        return fromEquallySpacedArray(sizeY, sizeZ, spacing, spacing, designFrequency, weightAlgorithm);
     }
 
     /**

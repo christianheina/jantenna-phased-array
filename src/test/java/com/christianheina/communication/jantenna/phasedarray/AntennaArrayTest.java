@@ -31,19 +31,44 @@ import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlg
 @SuppressWarnings("javadoc")
 public class AntennaArrayTest {
 
+    private static final WeightAlgorithm DEFAULT_WEIGHT_ALGORITHM = WeightAlgorithm
+            .newConjugateWeightAlgorithmFromLambda(0, ThetaPhi.fromDegrees(90, 0));
+
     @Test
     public void builderTest() {
         AntennaArray aa = AntennaArray.newBuilder().addAntennaLocation(new Vector3D(0, 0, 0))
-                .setWeightAlgorithm(WeightAlgorithm.newConjugateWeightAlgorithm(0, ThetaPhi.fromDegrees(90, 0)))
-                .setDesignFrequency(2E6).build();
+                .setWeightAlgorithm(DEFAULT_WEIGHT_ALGORITHM).setDesignFrequency(2E6).build();
         Assert.assertEquals(aa.getAntennaArray().length, 1);
     }
 
     @Test
     public void fromEquallySpacedArrayTest() {
-        AntennaArray aa = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0, 0,
-                WeightAlgorithm.newConjugateWeightAlgorithm(0, ThetaPhi.fromDegrees(90, 0)));
+        AntennaArray aa = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, 1e6, DEFAULT_WEIGHT_ALGORITHM);
         Assert.assertEquals(aa.getAntennaArray().length, 384);
+
+        aa = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, 0.7, 1.2, 1e6, DEFAULT_WEIGHT_ALGORITHM);
+        Assert.assertEquals(aa.getAntennaArray().length, 384);
+
+        aa = AntennaArray.fromEquallySpacedArray(24, 16, 0.5, 1e6, DEFAULT_WEIGHT_ALGORITHM);
+        Assert.assertEquals(aa.getAntennaArray().length, 384);
+
+        aa = AntennaArray.fromEquallySpacedArray(24, 16, 0.7, 1.2, 1e6, DEFAULT_WEIGHT_ALGORITHM);
+        Assert.assertEquals(aa.getAntennaArray().length, 384);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fromEquallySpacedArrayXSizeExceptionTest() {
+        AntennaArray.fromEquallySpacedArray(0, 24, 16, 0.5, 1e6, DEFAULT_WEIGHT_ALGORITHM);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fromEquallySpacedArrayYSizeExceptionTest() {
+        AntennaArray.fromEquallySpacedArray(1, -1, 16, 0.5, 1e6, DEFAULT_WEIGHT_ALGORITHM);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fromEquallySpacedArrayZSizeExceptionTest() {
+        AntennaArray.fromEquallySpacedArray(1, 24, -100, 0.5, 1e6, DEFAULT_WEIGHT_ALGORITHM);
     }
 
 }
