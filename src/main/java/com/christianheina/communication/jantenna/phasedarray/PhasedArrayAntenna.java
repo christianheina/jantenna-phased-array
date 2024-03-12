@@ -127,4 +127,61 @@ public class PhasedArrayAntenna {
         return future;
     }
 
+    /**
+     * Create phased array. <br>
+     * Both {@code arrayFactor} and {@code averageEmbeddedAntennaField} must contain same angles.
+     * 
+     * @param averageEmbeddedAntennaField
+     *            the average embedded field.
+     * @param arrayFactor
+     *            the array factor field.
+     * 
+     * @return
+     */
+    public static Field newPhasedArray(Field averageEmbeddedAntennaField, Field arrayFactor) {
+        return averageEmbeddedAntennaField.multiply(arrayFactor);
+    }
+
+    /**
+     * Create phased array
+     * 
+     * @param averageEmbeddedAntennaField
+     *            the average embedded field. Must contain same angles as the {@code angles}
+     * @param frequency
+     *            wavelength
+     * @param antennaArray
+     *            antenna array to use when creating phased array
+     * @param angles
+     *            angles used in the created phased array
+     * 
+     * @return a field containing the phased array
+     */
+    public static Field newPhasedArrayAsync(Field averageEmbeddedAntennaField, double frequency,
+            AntennaArray antennaArray, List<ThetaPhi> angles) {
+        Field arrayFactor = newArrayFactorAsync(frequency, antennaArray, angles);
+        return newPhasedArray(averageEmbeddedAntennaField, arrayFactor);
+    }
+
+    /**
+     * Create phased array
+     * 
+     * @param averageEmbeddedAntennaField
+     *            the average embedded field. Must contain same angles as the {@code angles}
+     * @param executorService
+     *            the ExecutorService used for asynchronous array factor calculations
+     * @param frequency
+     *            wavelength
+     * @param antennaArray
+     *            antenna array to use when creating phased array
+     * @param angles
+     *            angles used in the created phased array
+     * 
+     * @return a field containing the phased array
+     */
+    public static Field newPhasedArrayAsync(Field averageEmbeddedAntennaField, ExecutorService executorService,
+            double frequency, AntennaArray antennaArray, List<ThetaPhi> angles) {
+        Field arrayFactor = newArrayFactorAsync(executorService, frequency, antennaArray, angles);
+        return newPhasedArray(averageEmbeddedAntennaField, arrayFactor);
+    }
+
 }

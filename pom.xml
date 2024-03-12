@@ -29,7 +29,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<antenna-commons.version>0.0.2</antenna-commons.version>
+		<jantenna-commons.version>0.0.3</jantenna-commons.version>
 		<testng.version>7.9.0</testng.version>
 		<formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
 		<maven-release-plugin.version>3.0.0-M4</maven-release-plugin.version>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.christianheina.communication</groupId>
 			<artifactId>jantenna-commons</artifactId>
-			<version>${antenna-commons.version}</version>
+			<version>${jantenna-commons.version}</version>
 		</dependency>
 
 		<dependency>

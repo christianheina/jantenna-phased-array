@@ -16,6 +16,8 @@
 
 package com.christianheina.communication.jantenna.phasedarray;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -37,6 +39,9 @@ import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlg
  */
 @SuppressWarnings("javadoc")
 public class PhasedArrayAntennaTest {
+
+    private static final String AVERAGE_EMBEDDED_FIELD_PATH = new File(PhasedArrayAntennaTest.class.getClassLoader()
+            .getResource("example_sphere_gaussian_model_field.json").getFile()).getPath();
 
     @Test
     public void newArrayFactorAsyncSuppliedExecutorServiceTest() {
@@ -99,6 +104,100 @@ public class PhasedArrayAntennaTest {
             Assert.assertTrue(hasAngleInList);
         });
 
+    }
+
+    @Test
+    public void newPhasedArrayTest() throws IOException {
+        double freq = 28 * Math.pow(10, 9);
+        List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
+        ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
+        AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, freq,
+                WeightAlgorithm.newConjugateWeightAlgorithmFromLambda(Util.calculateLambda(freq), steeringAngle));
+        Field arrayFactor = PhasedArrayAntenna.newArrayFactorAsync(Executors.newSingleThreadExecutor(), freq,
+                antennaArray, angleList);
+        Field averageEmbeddedField = Field.loadJson(AVERAGE_EMBEDDED_FIELD_PATH);
+        Field phasedArrayField = PhasedArrayAntenna.newPhasedArray(averageEmbeddedField, arrayFactor);
+        Assert.assertEquals(phasedArrayField.getThetaPhiList().size(), angleList.size());
+        phasedArrayField.getAvailableElectricFields().forEach(electricFieldName -> {
+            List<Complex> electricFieldList = phasedArrayField.getElectricField(electricFieldName);
+            double max = Double.MIN_VALUE;
+            List<ThetaPhi> maxAngleList = new ArrayList<>();
+            for (int i = 0; i < electricFieldList.size(); i++) {
+                if (electricFieldList.get(i).abs() >= max) {
+                    max = electricFieldList.get(i).abs();
+                    maxAngleList.add(angleList.get(i));
+                }
+            }
+            boolean hasAngleInList = false;
+            for (ThetaPhi thetaPhi : maxAngleList) {
+                if (thetaPhi.getTheta() == steeringAngle.getTheta() && thetaPhi.getPhi() == steeringAngle.getPhi()) {
+                    hasAngleInList = true;
+                }
+            }
+            Assert.assertTrue(hasAngleInList);
+        });
+    }
+
+    @Test
+    public void newPhasedArrayAsyncTest() throws IOException {
+        double freq = 28 * Math.pow(10, 9);
+        List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
+        ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
+        AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, freq,
+                WeightAlgorithm.newConjugateWeightAlgorithmFromLambda(Util.calculateLambda(freq), steeringAngle));
+        Field averageEmbeddedField = Field.loadJson(AVERAGE_EMBEDDED_FIELD_PATH);
+        Field phasedArrayField = PhasedArrayAntenna.newPhasedArrayAsync(averageEmbeddedField, freq, antennaArray,
+                angleList);
+        Assert.assertEquals(phasedArrayField.getThetaPhiList().size(), angleList.size());
+        phasedArrayField.getAvailableElectricFields().forEach(electricFieldName -> {
+            List<Complex> electricFieldList = phasedArrayField.getElectricField(electricFieldName);
+            double max = Double.MIN_VALUE;
+            List<ThetaPhi> maxAngleList = new ArrayList<>();
+            for (int i = 0; i < electricFieldList.size(); i++) {
+                if (electricFieldList.get(i).abs() >= max) {
+                    max = electricFieldList.get(i).abs();
+                    maxAngleList.add(angleList.get(i));
+                }
+            }
+            boolean hasAngleInList = false;
+            for (ThetaPhi thetaPhi : maxAngleList) {
+                if (thetaPhi.getTheta() == steeringAngle.getTheta() && thetaPhi.getPhi() == steeringAngle.getPhi()) {
+                    hasAngleInList = true;
+                }
+            }
+            Assert.assertTrue(hasAngleInList);
+        });
+    }
+
+    @Test
+    public void newPhasedArrayAsyncSuppliedExecutorServiceTest() throws IOException {
+        double freq = 28 * Math.pow(10, 9);
+        List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
+        ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
+        AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, freq,
+                WeightAlgorithm.newConjugateWeightAlgorithmFromLambda(Util.calculateLambda(freq), steeringAngle));
+        Field averageEmbeddedField = Field.loadJson(AVERAGE_EMBEDDED_FIELD_PATH);
+        Field phasedArrayField = PhasedArrayAntenna.newPhasedArrayAsync(averageEmbeddedField,
+                Executors.newSingleThreadExecutor(), freq, antennaArray, angleList);
+        Assert.assertEquals(phasedArrayField.getThetaPhiList().size(), angleList.size());
+        phasedArrayField.getAvailableElectricFields().forEach(electricFieldName -> {
+            List<Complex> electricFieldList = phasedArrayField.getElectricField(electricFieldName);
+            double max = Double.MIN_VALUE;
+            List<ThetaPhi> maxAngleList = new ArrayList<>();
+            for (int i = 0; i < electricFieldList.size(); i++) {
+                if (electricFieldList.get(i).abs() >= max) {
+                    max = electricFieldList.get(i).abs();
+                    maxAngleList.add(angleList.get(i));
+                }
+            }
+            boolean hasAngleInList = false;
+            for (ThetaPhi thetaPhi : maxAngleList) {
+                if (thetaPhi.getTheta() == steeringAngle.getTheta() && thetaPhi.getPhi() == steeringAngle.getPhi()) {
+                    hasAngleInList = true;
+                }
+            }
+            Assert.assertTrue(hasAngleInList);
+        });
     }
 
 }
