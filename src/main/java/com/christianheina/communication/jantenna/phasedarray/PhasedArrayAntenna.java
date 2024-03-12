@@ -88,7 +88,7 @@ public class PhasedArrayAntenna {
      * @param arrayFactor
      *            the array factor field.
      * 
-     * @return
+     * @return a field containing the phased array
      */
     public static Field newPhasedArray(Field averageEmbeddedAntennaField, Field arrayFactor) {
         return averageEmbeddedAntennaField.multiply(arrayFactor);
