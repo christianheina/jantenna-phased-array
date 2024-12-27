@@ -26,7 +26,6 @@ import org.apache.commons.math3.complex.Complex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.commons.Constants;
 import com.christianheina.communication.jantenna.commons.Field;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 import com.christianheina.communication.jantenna.commons.Util;
@@ -44,77 +43,14 @@ public class PhasedArrayAntennaTest {
             .getResource("example_sphere_gaussian_model_field.json").getFile()).getPath();
 
     @Test
-    public void newArrayFactorAsyncSuppliedExecutorServiceTest() {
-        double freq = 28 * Math.pow(10, 9);
-        // double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
-        List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
-        ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
-        AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, freq,
-                WeightAlgorithm.newConjugateWeightAlgorithm(Util.calculateLambda(freq), steeringAngle));
-        Field field = PhasedArrayAntenna.newArrayFactorAsync(Executors.newSingleThreadExecutor(), freq, antennaArray,
-                angleList);
-        Assert.assertEquals(field.getThetaPhiList().size(), angleList.size());
-        field.getAvailableElectricFields().forEach(electricFieldName -> {
-            List<Complex> electricFieldList = field.getElectricField(electricFieldName);
-            double max = Double.MIN_VALUE;
-            List<ThetaPhi> maxAngleList = new ArrayList<>();
-            for (int i = 0; i < electricFieldList.size(); i++) {
-                if (electricFieldList.get(i).abs() >= max) {
-                    max = electricFieldList.get(i).abs();
-                    maxAngleList.add(angleList.get(i));
-                }
-            }
-            boolean hasAngleInList = false;
-            for (ThetaPhi thetaPhi : maxAngleList) {
-                if (thetaPhi.getTheta() == steeringAngle.getTheta() && thetaPhi.getPhi() == steeringAngle.getPhi()) {
-                    hasAngleInList = true;
-                }
-            }
-            Assert.assertTrue(hasAngleInList);
-        });
-
-    }
-
-    @Test
-    public void newArrayFactorAsyncTest() {
-        double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
-        List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
-        ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
-        AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, lambda / 2, freq,
-                WeightAlgorithm.newConjugateWeightAlgorithm(lambda, steeringAngle));
-        Field field = PhasedArrayAntenna.newArrayFactorAsync(freq, antennaArray, angleList);
-        Assert.assertEquals(field.getThetaPhiList().size(), angleList.size());
-        field.getAvailableElectricFields().forEach(electricFieldName -> {
-            List<Complex> electricFieldList = field.getElectricField(electricFieldName);
-            double max = Double.MIN_VALUE;
-            List<ThetaPhi> maxAngleList = new ArrayList<>();
-            for (int i = 0; i < electricFieldList.size(); i++) {
-                if (electricFieldList.get(i).abs() >= max) {
-                    max = electricFieldList.get(i).abs();
-                    maxAngleList.add(angleList.get(i));
-                }
-            }
-            boolean hasAngleInList = false;
-            for (ThetaPhi thetaPhi : maxAngleList) {
-                if (thetaPhi.getTheta() == steeringAngle.getTheta() && thetaPhi.getPhi() == steeringAngle.getPhi()) {
-                    hasAngleInList = true;
-                }
-            }
-            Assert.assertTrue(hasAngleInList);
-        });
-
-    }
-
-    @Test
     public void newPhasedArrayTest() throws IOException {
         double freq = 28 * Math.pow(10, 9);
         List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
         ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
         AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, 0.5, freq,
                 WeightAlgorithm.newConjugateWeightAlgorithmFromLambda(Util.calculateLambda(freq), steeringAngle));
-        Field arrayFactor = PhasedArrayAntenna.newArrayFactorAsync(Executors.newSingleThreadExecutor(), freq,
-                antennaArray, angleList);
+        Field arrayFactor = ArrayFactor.newArrayFactorAsync(Executors.newSingleThreadExecutor(), freq, antennaArray,
+                angleList);
         Field averageEmbeddedField = Field.loadJson(AVERAGE_EMBEDDED_FIELD_PATH);
         Field phasedArrayField = PhasedArrayAntenna.newPhasedArray(averageEmbeddedField, arrayFactor);
         Assert.assertEquals(phasedArrayField.getThetaPhiList().size(), angleList.size());

@@ -22,7 +22,7 @@ import com.christianheina.communication.jantenna.commons.Field;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 import com.christianheina.communication.jantenna.commons.Util;
 import com.christianheina.communication.jantenna.phasedarray.AntennaArray;
-import com.christianheina.communication.jantenna.phasedarray.PhasedArrayAntenna;
+import com.christianheina.communication.jantenna.phasedarray.ArrayFactor;
 import com.christianheina.communication.jantenna.phasedarray.weighting.WeightAlgorithm;
 
 /**
@@ -40,6 +40,6 @@ public class ArrayFactorExample {
         List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
         AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 8, 4, 0.5, freq,
                 WeightAlgorithm.newConjugateWeightAlgorithm(lambda, ThetaPhi.fromDegrees(103, -1.5)));
-        Field field = PhasedArrayAntenna.newArrayFactorAsync(freq, antennaArray, angleList);
+        Field field = ArrayFactor.newArrayFactorAsync(freq, antennaArray, angleList);
     }
 }

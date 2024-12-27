@@ -30,53 +30,7 @@ import com.christianheina.communication.jantenna.commons.ThetaPhi;
 public class PhasedArrayAntenna {
 
     private PhasedArrayAntenna() {
-        /* Hidden Constructor */ }
-
-    /**
-     * Create array factor
-     * 
-     * @param frequency
-     *            wavelength
-     * @param antennaArray
-     *            antenna array to use when creating array factor
-     * @param angles
-     *            angles used in the created array factor
-     * 
-     * @return a field containing the array factor
-     * 
-     * @deprecated As of 2024-03-13 this is replaced by
-     *             {@link com.christianheina.communication.jantenna.phasedarray.ArrayFactor#newArrayFactorAsync(double, AntennaArray, List)
-     *             newArrayFactorAsync(double frequency, AntennaArray antennaArray, List angles)}. This method will be
-     *             supported until 2024-06-13 and removed 2024-09-13.
-     */
-    @Deprecated
-    public static Field newArrayFactorAsync(double frequency, AntennaArray antennaArray, List<ThetaPhi> angles) {
-        return ArrayFactor.newArrayFactorAsync(frequency, antennaArray, angles);
-    }
-
-    /**
-     * Create array factor
-     * 
-     * @param executorService
-     *            the ExecutorService used for asynchronous array factor calculations
-     * @param frequency
-     *            wavelength
-     * @param antennaArray
-     *            antenna array to use when creating array factor
-     * @param angles
-     *            angles used in the created array factor
-     * 
-     * @return a field containing the array factor
-     * 
-     * @deprecated As of 2024-03-13 this is replaced by
-     *             {@link com.christianheina.communication.jantenna.phasedarray.ArrayFactor#newArrayFactorAsync(ExecutorService, double, AntennaArray, List)
-     *             newArrayFactorAsync(ExecutorService executorService, double frequency, AntennaArray antennaArray,
-     *             List angles)}. This method will be supported until 2024-06-13 and removed 2024-09-13.
-     */
-    @Deprecated
-    public static Field newArrayFactorAsync(ExecutorService executorService, double frequency,
-            AntennaArray antennaArray, List<ThetaPhi> angles) {
-        return ArrayFactor.newArrayFactorAsync(executorService, frequency, antennaArray, angles);
+        /* Hidden Constructor */
     }
 
     /**
