@@ -22,7 +22,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.commons.Constants;
+import com.christianheina.common.utilities.constants.Constants;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 
 /**
@@ -38,7 +38,7 @@ public class ConjugateWeightAlgorithmTest {
     @BeforeMethod
     public void setup() {
         double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
+        double lambda = Constants.VACUUM_SPEED_OF_LIGHT / freq;
         ThetaPhi pointingDirection = ThetaPhi.fromDegrees(0, 0);
         wa = new ConjugateWeightAlgorithm(lambda, pointingDirection);
     }

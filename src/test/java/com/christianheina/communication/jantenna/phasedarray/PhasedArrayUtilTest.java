@@ -21,7 +21,7 @@ import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.commons.Constants;
+import com.christianheina.common.utilities.constants.Constants;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 
 /**
@@ -37,7 +37,7 @@ public class PhasedArrayUtilTest {
     @Test
     public void calculateWaveVectorTest() {
         double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
+        double lambda = Constants.VACUUM_SPEED_OF_LIGHT / freq;
         Vector3D k = PhasedArrayUtil.calculateWaveVector(lambda, ThetaPhi.fromDegrees(90, 0));
         Assert.assertTrue(Math.abs(k.getX() - 2 * Math.PI / lambda) < THRESHOLD);
         Assert.assertTrue(Math.abs(k.getY() - 0) < THRESHOLD);
@@ -47,7 +47,7 @@ public class PhasedArrayUtilTest {
     @Test
     public void calculateSteeringVectorTest() {
         double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
+        double lambda = Constants.VACUUM_SPEED_OF_LIGHT / freq;
         Vector3D k = PhasedArrayUtil.calculateWaveVector(lambda, ThetaPhi.fromDegrees(0, 0));
         Complex vk = PhasedArrayUtil.calculateSteeringVector(k, new Vector3D(0, 0, 0));
         Complex expected = Complex.ONE;

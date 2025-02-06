@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-import com.christianheina.communication.jantenna.commons.Constants;
+import com.christianheina.common.utilities.constants.Constants;
 import com.christianheina.communication.jantenna.commons.ElectricField;
 import com.christianheina.communication.jantenna.commons.Field;
 import com.christianheina.communication.jantenna.commons.FieldType;
@@ -79,7 +79,7 @@ public class ArrayFactor {
      */
     public static Field newArrayFactorAsync(ExecutorService executorService, double frequency,
             AntennaArray antennaArray, List<ThetaPhi> angles) {
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / frequency;
+        double lambda = Constants.VACUUM_SPEED_OF_LIGHT / frequency;
         @SuppressWarnings("unchecked")
         CompletableFuture<Complex>[] futureArray = new CompletableFuture[angles.size()];
         for (int i = 0; i < angles.size(); i++) {

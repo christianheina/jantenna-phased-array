@@ -24,7 +24,7 @@ import org.apache.commons.math3.complex.Complex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.christianheina.communication.jantenna.commons.Constants;
+import com.christianheina.common.utilities.constants.Constants;
 import com.christianheina.communication.jantenna.commons.Field;
 import com.christianheina.communication.jantenna.commons.ThetaPhi;
 import com.christianheina.communication.jantenna.commons.Util;
@@ -72,7 +72,7 @@ public class ArrayFactorTest {
     @Test
     public void newArrayFactorAsyncTest() {
         double freq = 28 * Math.pow(10, 9);
-        double lambda = Constants.VACCUM_SPEED_OF_LIGHT / freq;
+        double lambda = Constants.VACUUM_SPEED_OF_LIGHT / freq;
         List<ThetaPhi> angleList = ThetaPhi.equallySpacedSphere(1);
         ThetaPhi steeringAngle = ThetaPhi.fromDegrees(90, 0);
         AntennaArray antennaArray = AntennaArray.fromEquallySpacedArray(1, 24, 16, lambda / 2, freq,
